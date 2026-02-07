@@ -1,0 +1,16 @@
+[package]
+name = "a_star"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Rust-backed Python library template"
+
+[lib]
+name = "a_star"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.27", features = ["extension-module"] }
+
+[package.metadata.maturin]
+# Maturin build configuration

@@ -1,0 +1,32 @@
+# Astar - Development Container
+
+FROM python:3.12-bookworm
+
+# 必要なパッケージのインストール
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# --- Rust のインストール ---
+# Rustの環境変数を設定
+ENV RUSTUP_HOME=/usr/local/rustup \
+    CARGO_HOME=/usr/local/cargo \
+    PATH=/usr/local/cargo/bin:$PATH
+
+# Rustupを使ってRustをインストール (バージョン指定可能)
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain 1.75.0 \
+    && chmod -R a+w $RUSTUP_HOME $CARGO_HOME \
+    && rustup component add rustfmt clippy
+
+# --- uv のインストール ---
+# uvのパスを通す
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+# 作業ディレクトリ設定
+WORKDIR /workspace
+COPY . /workspace
+
+# デフォルトコマンド
+CMD ["/bin/bash"]

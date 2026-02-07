@@ -1,0 +1,57 @@
+[build-system]
+requires = ["maturin>=1.6,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "a_star"
+version = "0.1.0"
+description = "Rust-backed Python library template"
+readme = "README.md"
+requires-python = ">=3.12,<3.15"
+authors = [{ name = "" }]
+license = { text = "MIT" }
+classifiers = [
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Rust",
+    "Operating System :: Microsoft :: Windows",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "maturin>=1.6,<2",
+    "ruff>=0.5.0",
+    "pyrefly>=0.40.0",
+    "pytest>=8.2.0",
+    "sphinx>=7.3.0",
+    "nox>=2024.4.15",
+]
+
+[tool.uv]
+# UV settings can be added here if needed
+
+[dependency-groups]
+dev = [
+    "maturin>=1.6,<2",
+    "ruff>=0.5.0",
+    "pyrefly>=0.40.0",
+    "pytest>=8.2.0",
+    "sphinx>=7.3.0",
+    "nox>=2024.4.15",
+]
+
+[tool.maturin]
+module-name = "a_star._native"
+python-source = "."
+features = ["pyo3/extension-module"]
+
+[tool.ruff]
+extend = "ruff.toml"
+
+[tool.pyrefly]
+python = "3.12"
+paths = ["a_star", "tests"]
+
+[tool.pytest.ini_options]
+addopts = "-v"
+testpaths = ["tests/python"]
