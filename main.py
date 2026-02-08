@@ -1,13 +1,10 @@
-import heapq
-import random
-import time
 import sys
 
 from a_star.pure_python import AStarPathfinder
 
 # --- 設定 ---
-GRID_SIZE = 5000      # グリッドのサイズ (5,000x5,000 = 2,500万ノード)
-OBSTACLE_RATIO = 0.3  # 障害物の割合 (30%)
+GRID_SIZE = 3000      # グリッドのサイズ (3,000x3,000 = 900万ノード)
+OBSTACLE_RATIO = 0.1  # 障害物の割合 (10%)
 SEED = 42             # 毎回同じマップを生成するためのシード値
 
 if __name__ == "__main__":
