@@ -7,7 +7,7 @@ name = "a_star"
 version = "0.1.0"
 description = "Rust-backed Python library template"
 readme = "README.md"
-requires-python = ">=3.12,<3.15"
+requires-python = ">=3.12,<3.13"
 authors = [{ name = "" }]
 license = { text = "MIT" }
 classifiers = [
@@ -25,6 +25,7 @@ dev = [
     "pytest>=8.2.0",
     "sphinx>=7.3.0",
     "nox>=2024.4.15",
+    "viztracer>=1.1.1",
 ]
 
 [tool.uv]
@@ -38,6 +39,7 @@ dev = [
     "pytest>=8.2.0",
     "sphinx>=7.3.0",
     "nox>=2024.4.15",
+    "viztracer>=1.1.1",
 ]
 
 [tool.maturin]

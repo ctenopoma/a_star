@@ -1,0 +1,5 @@
+# Ignore all profiling artifacts by default
+*
+
+# Keep this file
+!.gitignore

@@ -46,6 +46,9 @@ docker-compose.yml
 Dockerfile
 .dockerignore
 
+# Node
+node_modules/
+
 # Environment files
 .env
 .env.*
@@ -61,6 +64,7 @@ Thumbs.db
 # Test outputs
 coverage/
 *.log
+*.log*
 
 # Copier
 .copier-answers.yml
