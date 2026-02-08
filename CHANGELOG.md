@@ -17,4 +17,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/) and the p
 - CI workflow template with Windows-first defaults
 - Copier post-generation hook for metadata logging and changelog entries
 - Deterministic render tests to validate template consistency
+- Rust A* core implementation with Python fallback and telemetry exposure
+- Viztracer profiling script for Rust vs Python comparisons
 

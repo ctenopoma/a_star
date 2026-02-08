@@ -1,0 +1,164 @@
+openapi: 3.1.0
+info:
+  title: Rust A* Core API
+  version: 0.1.0
+  description: REST-facing contracts that mirror the CLI + Python API semantics for the Rust-backed A* pathfinder.
+servers:
+  - url: https://example.invalid/api
+paths:
+  /astar/v1/find-path:
+    post:
+      summary: Execute the Rust-backed A* search with Python-compatible semantics.
+      tags: [astar]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FindPathRequest"
+      responses:
+        "200":
+          description: Path search completed.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FindPathResponse"
+        "400":
+          description: Invalid grid configuration or obstacle payload.
+        "503":
+          description: Native module unavailable and fallback disabled.
+  /astar/v1/profile:
+    post:
+      summary: Trigger a viztracer profiling run against the Rust implementation.
+      tags: [profiling]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProfileRequest"
+      responses:
+        "202":
+          description: Profiling started; caller should fetch the artifact referenced by `traceArtifact`.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProfileResponse"
+        "409":
+          description: Profiling already in progress for the same grid seed.
+components:
+  schemas:
+    GridConfig:
+      type: object
+      required: [size, obstacleRatio, seed]
+      properties:
+        size:
+          type: integer
+          minimum: 10
+          maximum: 5000
+        obstacleRatio:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 0.5
+        seed:
+          type: integer
+        start:
+          type: array
+          items:
+            type: integer
+          minItems: 2
+          maxItems: 2
+          default: [0, 0]
+        goal:
+          type: array
+          items:
+            type: integer
+          minItems: 2
+          maxItems: 2
+          description: Defaults to `[size-1, size-1]` when omitted.
+    FindPathRequest:
+      type: object
+      required: [gridConfig]
+      properties:
+        gridConfig:
+          $ref: "#/components/schemas/GridConfig"
+        obstacles:
+          type: array
+          description: Optional explicit obstacle coordinates; otherwise derived from ratio/seed.
+          items:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              type: integer
+        forcePython:
+          type: boolean
+          description: When true, bypasses the Rust extension (mirrors `A_STAR_FORCE_PYTHON`).
+        telemetryMode:
+          type: string
+          enum: [summary, verbose]
+          default: summary
+    Telemetry:
+      type: object
+      required: [duration, nodesEvaluated]
+      properties:
+        duration:
+          type: number
+          format: float
+        nodesEvaluated:
+          type: integer
+        heapPushes:
+          type: integer
+        heapPops:
+          type: integer
+        neighborsChecked:
+          type: integer
+    FindPathResponse:
+      type: object
+      required: [path, telemetry]
+      properties:
+        path:
+          type: array
+          nullable: true
+          items:
+            type: array
+            items:
+              type: integer
+            minItems: 2
+            maxItems: 2
+        duration:
+          type: number
+          description: Shortcut for `telemetry.duration` to maintain tuple compatibility.
+        nodesEvaluated:
+          type: integer
+          description: Shortcut for `telemetry.nodesEvaluated`.
+        telemetry:
+          $ref: "#/components/schemas/Telemetry"
+    ProfileRequest:
+      type: object
+      required: [gridConfig]
+      properties:
+        gridConfig:
+          $ref: "#/components/schemas/GridConfig"
+        tracerEntries:
+          type: integer
+          default: 2000000
+        minDurationMicros:
+          type: integer
+          default: 1000
+        includePythonFallback:
+          type: boolean
+          default: false
+    ProfileResponse:
+      type: object
+      required: [traceArtifact, estimatedSeconds]
+      properties:
+        traceArtifact:
+          type: string
+          format: uri
+        estimatedSeconds:
+          type: integer
+          minimum: 0
+        notes:
+          type: string
