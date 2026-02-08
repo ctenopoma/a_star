@@ -4,6 +4,7 @@ This guide outlines the repeatable build pipeline for the PyO3-based Python pack
 
 ## Prerequisites
 - Python >= 3.12 with uv installed
+- maturin available via the dev dependencies (`uv sync --group dev`)
 - Rust toolchain (`rustup default stable`) with `rustfmt` and `clippy`
 - MSVC Build Tools available on Windows (`where cl` should succeed)
 - `copier` installed for template updates
@@ -17,10 +18,15 @@ This guide outlines the repeatable build pipeline for the PyO3-based Python pack
 ./build.sh --help   # Show all options
 ```
 
+### Windows
+```powershell
+./build.ps1
+```
+
 ## Manual bootstrap
 ```powershell
 uv sync --group dev
-uv run maturin develop
+uv run maturin develop --release
 ```
 
 ## Lint and test

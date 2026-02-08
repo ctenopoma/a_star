@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2026-02-08
 
 ## Active Technologies
+- Python 3.12 (per `pyproject.toml`) + Rust stable toolchain (2021 edition crate) via PyO3 0.27 + PyO3 0.27, maturin build backend, uv toolchain, pytest, viztracer, ruff, pyrefly (linting), BinaryHeap from Rust stdlib for priority queue (001-rust-astar-core)
+- In-memory grid + obstacle sets only; no external persistence (N/A) (001-rust-astar-core)
 
 - Python 3.12, Rust 2021 (stable toolchain) + uv, maturin, pyo3, viztracer (dev) (001-plan)
 
@@ -22,6 +24,7 @@ cd src [ONLY COMMANDS FOR ACTIVE TECHNOLOGIES][ONLY COMMANDS FOR ACTIVE TECHNOLO
 Python 3.12, Rust 2021 (stable toolchain): Follow standard conventions
 
 ## Recent Changes
+- 001-rust-astar-core: Added Python 3.12 (per `pyproject.toml`) + Rust stable toolchain (2021 edition crate) via PyO3 0.27 + PyO3 0.27, maturin build backend, uv toolchain, pytest, viztracer, ruff, pyrefly (linting), BinaryHeap from Rust stdlib for priority queue
 
 - 001-plan: Added Python 3.12, Rust 2021 (stable toolchain) + uv, maturin, pyo3, viztracer (dev)
 
